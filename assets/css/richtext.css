@@ -1,0 +1,47 @@
+@reference "./tailwind.css";
+
+.has-richtext {
+    p {
+      @apply mb-4;
+    }
+    
+    h2 {
+      @apply text-2xl font-bold text-gray-800 mb-3 mt-6;
+    }
+    
+    h3 {
+      @apply text-xl font-bold text-gray-800 mb-3 mt-5;
+    }
+    
+    h4 {
+      @apply text-lg font-bold text-gray-800 mb-2 mt-4;
+    }
+    
+    h5, h6 {
+      @apply text-base font-bold text-gray-800 mb-2 mt-4;
+    }
+    
+    ul, ol {
+      @apply mb-4 pl-5;
+    }
+    
+    ul {
+      @apply list-disc;
+    }
+    
+    ol {
+      @apply list-decimal;
+    }
+    
+    li {
+      @apply mb-1;
+    }
+    
+    a {
+      @apply text-action hover:text-secondary underline;
+    }
+    
+    code:not(pre code) {
+      @apply bg-gray-100 text-rose-500 px-1 py-0.5 rounded text-sm font-mono;
+    }
+  }

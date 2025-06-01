@@ -1,0 +1,36 @@
+{
+  "name": "nuxt-storyblok-boilerplate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npx nuxt build",
+    "dev": "npx nuxt dev",
+    "dev-ssl": "npx nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem --dotenv .env.preview",
+    "generate": "npm run generate:storyblok && npx serve .output/public",
+    "generate:routes": "node scripts/generate-routes.js",
+    "generate:storyblok": "NODE_ENV=production npm run generate:routes && npx nuxt generate",
+    "preview": "npx nuxt preview",
+    "postinstall": "npx nuxt prepare",
+    "seo-audit": "node scripts/seo-audit.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.4.1",
+    "@nuxt/kit": "^3.17.3",
+    "@tailwindcss/vite": "^4.1.6",
+    "@types/d3": "^7.4.3",
+    "eslint": "^9.27.0",
+    "nuxt": "^3.17.3"
+  },
+  "dependencies": {
+    "@nuxt/image": "^1.1.0",
+    "@storyblok/nuxt": "^6.2.4",
+    "axios": "^1.9.0",
+    "d3": "^7.9.0",
+    "markdown-it": "^14.1.0",
+    "preline": "^3.0.1",
+    "vue": "^3.5.16",
+    "vue-router": "^4.2.5"
+  }
+}

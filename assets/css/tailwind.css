@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import "preline/variants.css";
+
+@theme {
+  --color-primary-50: oklch(98.52% 0.011 89.72);
+  --color-primary-100: oklch(97.03% 0.023 90.75);
+  --color-primary-200: oklch(93.02% 0.053 89.49);
+  --color-primary-300: oklch(89.67% 0.079 88.89);
+  --color-primary-400: oklch(85.29% 0.108 88.17);
+  --color-primary-500: oklch(81.03% 0.134 87.26);
+  --color-primary-600: oklch(75.46% 0.148 84.21);
+  --color-primary-700: oklch(68.35% 0.134 84.02);
+  --color-primary-800: oklch(60.2% 0.117 84.55);
+  --color-primary-900: oklch(47.69% 0.091 85.26);
+  --color-primary-950: oklch(37.11% 0.069 86.43);
+  --color-secondary-50: oklch(92.83% 0.037 310.48);
+  --color-secondary-100: oklch(85.46% 0.075 310.88);
+  --color-secondary-200: oklch(71.21% 0.153 308.99);
+  --color-secondary-300: oklch(58.34% 0.222 306.85);
+  --color-secondary-400: oklch(47.82% 0.223 304.46);
+  --color-secondary-500: oklch(37.17% 0.169 305.13);
+  --color-secondary-600: oklch(31.5% 0.139 305.33);
+  --color-secondary-700: oklch(26.28% 0.111 305.51);
+  --color-secondary-800: oklch(20.71% 0.081 306.01);
+  --color-secondary-900: oklch(15.01% 0.048 309.07);
+  --color-secondary-950: oklch(11.16% 0.035 312.16);
+  --color-action-50: oklch(94.6% 0.027 285.88);
+  --color-action-100: oklch(87.8% 0.06 285.09);
+  --color-action-200: oklch(75.59% 0.128 283.91);
+  --color-action-300: oklch(65.14% 0.187 280.58);
+  --color-action-400: oklch(54.76% 0.249 275.15);
+  --color-action-500: oklch(47.24% 0.294 267.83);
+  --color-action-600: oklch(41.49% 0.284 264.67);
+  --color-action-700: oklch(33.75% 0.23 264.88);
+  --color-action-800: oklch(24.84% 0.167 265.32);
+  --color-action-900: oklch(15.73% 0.102 267.34);
+  --color-action-950: oklch(10.87% 0.072 268.84);
+
+  /* Base color values (for classes like text-action, text-primary, text-secondary) */
+  --color-primary: var(--color-primary-500);
+  --color-secondary: var(--color-secondary-500);
+  --color-action: var(--color-action-700);
+
+  --font-family-sans: 'Noto Sans', sans-serif;
+  --font-family-serif: 'Noto Serif', serif;
+}
+
+@source "../../node_modules/preline/dist/*.js";

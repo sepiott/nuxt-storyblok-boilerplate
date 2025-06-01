@@ -1,0 +1,34 @@
+@reference "./tailwind.css";
+
+/* Sticky Element Styles - Modern Implementation */
+.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Visual enhancements when element becomes stuck */
+.is-sticky.is-stuck {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Standalone variant override - remove mx-auto when inside nestable-container */
+@variant standalone (&);
+.is-nestable-container .standalone\:mx-auto {
+  margin-left: unset;
+  margin-right: unset;
+}
+
+.has-bg-gradient {
+  background: linear-gradient(to bottom right, var(--color-primary-400), var(--color-primary-600), var(--color-black));
+}
+
+.has-text-gradient {
+  background: linear-gradient(to bottom right, var(--color-primary-400), var(--color-primary-600), var(--color-black));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
