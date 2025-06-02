@@ -15,7 +15,7 @@
             <BaseLink
               href="https://github.com/sepiott/nuxt-storyblok-boilerplate"
               target="_blank"
-              class="text-white underline hover:text-action"
+              class="font-semibold text-white underline hover:text-action"
             >
               GitHub
             </BaseLink>

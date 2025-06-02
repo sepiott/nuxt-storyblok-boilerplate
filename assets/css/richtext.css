@@ -38,10 +38,42 @@
     }
     
     a {
-      @apply text-action hover:text-secondary underline;
+      @apply font-semibold text-action hover:text-secondary underline;
     }
     
     code:not(pre code) {
       @apply bg-gray-100 text-rose-500 px-1 py-0.5 rounded text-sm font-mono;
+    }
+
+    table {
+      @apply w-full mb-6 border-collapse border border-gray-200 rounded-lg overflow-hidden shadow-sm;
+    }
+
+    thead {
+      @apply bg-gray-50;
+    }
+
+    thead tr {
+      @apply border-b border-gray-200;
+    }
+
+    tbody tr {
+      @apply border-b border-gray-100 hover:bg-gray-50 transition-colors;
+    }
+
+    tbody tr:nth-child(even) {
+      @apply bg-gray-50/50;
+    }
+
+    tbody tr:last-child {
+      @apply border-b-0;
+    }
+
+    th {
+      @apply px-6 py-4 text-left text-sm font-semibold text-gray-900 tracking-wide;
+    }
+
+    td {
+      @apply px-6 py-4 text-sm text-gray-700 leading-relaxed;
     }
   }

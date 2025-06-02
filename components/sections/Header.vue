@@ -98,7 +98,7 @@
                   v-for="item in navData.rootItems"
                   :key="item.id"
                   :href="`/${item.slug}`"
-                  class="w-full md:w-auto p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
+                  class="w-full md:w-auto p-2 flex items-center text-sm font-semibold text-action hover:text-secondary hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
                 >
                   <svg
                     class="shrink-0 size-4 me-3 md:me-2 block md:hidden"
@@ -134,7 +134,7 @@
                   <BaseLink
                     v-if="items.length === 1"
                     :href="`/${items[0].slug}`"
-                    class="w-full p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
+                    class="w-full p-2 flex items-center text-sm font-semibold text-action hover:text-secondary hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
                   >
                     <svg
                       class="shrink-0 size-4 me-3 md:me-2 block md:hidden"
@@ -165,7 +165,7 @@
                     <button
                       :id="`hs-header-base-mega-menu-${category}`"
                       type="button"
-                      class="hs-dropdown-toggle w-full p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
+                      class="hs-dropdown-toggle w-full p-2 flex items-center text-sm font-semibold text-action hover:text-secondary hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
                       aria-haspopup="menu"
                       aria-expanded="false"
                       aria-label="Mega Menu"
@@ -221,17 +221,17 @@
                           :key="item.id"
                         >
                           <BaseLink
-                            class="p-3 flex gap-x-4 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 rounded-lg"
+                            class="p-3 flex gap-x-4 hover:bg-gray-100 hover:text-secondary focus:outline-hidden focus:bg-gray-100 rounded-lg"
                             :href="`/${item.slug}`"
                           >
                             <!-- Use a default icon if none provided, with proper SVG structure -->
                             <div
                               v-if="item.icon"
-                              class="shrink-0 size-4 mt-1 text-gray-800"
+                              class="shrink-0 size-4 mt-1 text-action"
                               v-html="sanitizeSVG(item.icon)"
                             />
                             <div class="grow">
-                              <span class="block font-semibold text-sm text-gray-800">{{
+                              <span class="block font-semibold text-sm text-action">{{
                                 item.name
                               }}</span>
                               <p

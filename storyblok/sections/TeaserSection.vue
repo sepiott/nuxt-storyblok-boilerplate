@@ -30,7 +30,7 @@
               </template>
               <template v-else>
                 <img
-                  src="/images/fallback.png"
+                  src="/images/fallback.webp"
                   :alt="story.name"
                   class="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out size-full absolute top-0 start-0 object-cover rounded-xl"
                   loading="lazy"
@@ -40,13 +40,13 @@
 
             <div class="grow">
               <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600">
-                {{ story.name || 'Untitled' }}
+                {{ getHeroHeadlineFromStory(story) || story.name || 'Untitled' }}
               </h3>
               <p class="mt-3 text-gray-600">
                 {{ getFirstTextFromStory(story) }}
               </p>
               <p
-                class="mt-4 inline-flex items-center gap-x-1 text-sm text-action hover:text-secondary decoration-2 group-hover:underline group-focus:underline font-medium"
+                class="mt-4 inline-flex items-center gap-x-1 text-sm font-semibold text-action hover:text-secondary decoration-2 group-hover:underline group-focus:underline"
               >
                 Read more
                 <svg
@@ -80,7 +80,7 @@
     >
       <NuxtLink
         :to="getPaginationUrl(currentPage - 1)"
-        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg font-semibold text-action hover:text-secondary hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
         :class="{ 'opacity-50 pointer-events-none': currentPage <= 1 }"
         aria-label="Previous"
         :tabindex="currentPage <= 1 ? -1 : 0"
@@ -110,7 +110,7 @@
           <NuxtLink
             v-if="page !== '...'"
             :to="getPaginationUrl(page)"
-            class="min-h-9.5 min-w-9.5 flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-100"
+            class="min-h-9.5 min-w-9.5 flex justify-center items-center font-semibold text-action hover:text-secondary hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-100"
             :class="{ 'bg-gray-100 font-semibold': page === currentPage }"
             :aria-current="page === currentPage ? 'page' : undefined"
           >
@@ -127,7 +127,7 @@
 
       <NuxtLink
         :to="getPaginationUrl(currentPage + 1)"
-        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg font-semibold text-action hover:text-secondary hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
         :class="{ 'opacity-50 pointer-events-none': currentPage >= totalPages }"
         aria-label="Next"
         :tabindex="currentPage >= totalPages ? -1 : 0"
@@ -158,6 +158,7 @@
 import { useStoryblokApi } from '@storyblok/vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import MarkdownIt from 'markdown-it'
 import { useRuntimeConfig, useHead } from '#app'
 
 const props = defineProps({
@@ -170,6 +171,10 @@ const props = defineProps({
 const config = useRuntimeConfig()
 const storyblokApi = useStoryblokApi()
 const route = useRoute()
+
+const md = new MarkdownIt({
+  breaks: true, // converts \n to <br>
+})
 
 const stories = ref([])
 const total = ref(0)
@@ -356,15 +361,18 @@ const getFirstTextFromStory = (story) => {
   for (const component of story.content.body) {
     // Case 1: Direct text component
     if (component.component === 'text' && component.text) {
-      // Limit text to a reasonable length for a teaser
-      return truncateText(component.text, 120)
+      // Render markdown first, then strip HTML tags and truncate
+      const renderedMarkdown = md.render(component.text)
+      return truncateText(renderedMarkdown, 120)
     }
 
     // Case 2: Grid component with columns that might contain text
     if (component.component === 'grid' && Array.isArray(component.columns)) {
       for (const column of component.columns) {
         if (column.component === 'text' && column.text) {
-          return truncateText(column.text, 120)
+          // Render markdown first, then strip HTML tags and truncate
+          const renderedMarkdown = md.render(column.text)
+          return truncateText(renderedMarkdown, 120)
         }
       }
     }
@@ -373,9 +381,33 @@ const getFirstTextFromStory = (story) => {
   return defaultText
 }
 
-const truncateText = (text, maxLength) => {
-  // Remove HTML tags
-  const plainText = text.replace(/<[^>]*>/g, '')
+const getHeroHeadlineFromStory = (story) => {
+  // Check if story has content and body
+  if (!story?.content?.body || !Array.isArray(story.content.body)) {
+    return
+  }
+
+  // Search through body components for the first hero component
+  for (const component of story.content.body) {
+    // Case 1: Direct hero component
+    if (component.component?.startsWith('hero') && component.title) {
+      return component.title
+    }
+
+    // Case 2: Grid component with columns that might contain hero components
+    if (component.component === 'grid' && Array.isArray(component.columns)) {
+      for (const column of component.columns) {
+        if (column.component?.startsWith('hero') && column.title) {
+          return column.title
+        }
+      }
+    }
+  }
+}
+
+const truncateText = (htmlText, maxLength) => {
+  // Remove HTML tags from rendered markdown
+  const plainText = htmlText.replace(/<[^>]*>/g, '')
 
   if (plainText.length <= maxLength) {
     return plainText
