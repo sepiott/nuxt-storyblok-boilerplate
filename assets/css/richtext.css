@@ -38,7 +38,7 @@
     }
     
     a {
-      @apply font-semibold text-action hover:text-secondary underline;
+      @apply font-semibold text-action hover:text-action-300 underline;
     }
     
     code:not(pre code) {

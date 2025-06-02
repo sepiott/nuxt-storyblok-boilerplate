@@ -46,7 +46,7 @@
                 {{ getFirstTextFromStory(story) }}
               </p>
               <p
-                class="mt-4 inline-flex items-center gap-x-1 text-sm font-semibold text-action hover:text-secondary decoration-2 group-hover:underline group-focus:underline"
+                class="mt-4 inline-flex items-center gap-x-1 text-sm font-semibold text-action hover:text-action-300 decoration-2 group-hover:underline group-focus:underline"
               >
                 Read more
                 <svg
@@ -80,7 +80,7 @@
     >
       <NuxtLink
         :to="getPaginationUrl(currentPage - 1)"
-        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg font-semibold text-action hover:text-secondary hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg font-semibold text-action hover:text-action-300 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
         :class="{ 'opacity-50 pointer-events-none': currentPage <= 1 }"
         aria-label="Previous"
         :tabindex="currentPage <= 1 ? -1 : 0"
@@ -110,7 +110,7 @@
           <NuxtLink
             v-if="page !== '...'"
             :to="getPaginationUrl(page)"
-            class="min-h-9.5 min-w-9.5 flex justify-center items-center font-semibold text-action hover:text-secondary hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-100"
+            class="min-h-9.5 min-w-9.5 flex justify-center items-center font-semibold text-action hover:text-action-300 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-100"
             :class="{ 'bg-gray-100 font-semibold': page === currentPage }"
             :aria-current="page === currentPage ? 'page' : undefined"
           >
@@ -127,7 +127,7 @@
 
       <NuxtLink
         :to="getPaginationUrl(currentPage + 1)"
-        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg font-semibold text-action hover:text-secondary hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+        class="min-h-9.5 min-w-9.5 py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg font-semibold text-action hover:text-action-300 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
         :class="{ 'opacity-50 pointer-events-none': currentPage >= totalPages }"
         aria-label="Next"
         :tabindex="currentPage >= totalPages ? -1 : 0"

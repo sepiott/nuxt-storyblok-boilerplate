@@ -9,7 +9,7 @@
               <BaseLink
                 v-for="link in footerLinks.links"
                 :key="link.id"
-                class="inline-flex gap-x-2 font-semibold text-action hover:text-secondary focus:outline-hidden focus:text-secondary"
+                class="inline-flex gap-x-2 font-semibold text-action hover:text-action-300 focus:outline-hidden focus:text-secondary"
                 :href="link.slug"
               >
                 {{ link.name }}
@@ -21,7 +21,7 @@
             <!-- Social Brands -->
             <div class="space-x-4">
               <BaseLink
-                class="inline-block font-semibold text-action hover:text-secondary focus:outline-hidden focus:text-secondary"
+                class="inline-block font-semibold text-action hover:text-action-300 focus:outline-hidden focus:text-secondary"
                 href="#"
               >
                 <svg
@@ -38,7 +38,7 @@
                 </svg>
               </BaseLink>
               <BaseLink
-                class="inline-block font-semibold text-action hover:text-secondary focus:outline-hidden focus:text-secondary"
+                class="inline-block font-semibold text-action hover:text-action-300 focus:outline-hidden focus:text-secondary"
                 href="#"
               >
                 <svg
@@ -55,7 +55,7 @@
                 </svg>
               </BaseLink>
               <BaseLink
-                class="inline-block font-semibold text-action hover:text-secondary focus:outline-hidden focus:text-secondary"
+                class="inline-block font-semibold text-action hover:text-action-300 focus:outline-hidden focus:text-secondary"
                 href="#"
               >
                 <svg
@@ -72,7 +72,7 @@
                 </svg>
               </BaseLink>
               <BaseLink
-                class="inline-block font-semibold text-action hover:text-secondary focus:outline-hidden focus:text-secondary"
+                class="inline-block font-semibold text-action hover:text-action-300 focus:outline-hidden focus:text-secondary"
                 href="#"
               >
                 <svg
@@ -89,7 +89,7 @@
                 </svg>
               </BaseLink>
               <BaseLink
-                class="inline-block font-semibold text-action hover:text-secondary focus:outline-hidden focus:text-secondary"
+                class="inline-block font-semibold text-action hover:text-action-300 focus:outline-hidden focus:text-secondary"
                 href="#"
               >
                 <svg
