@@ -8,6 +8,10 @@
   </div>
 </template>
 
-<script setup>
-defineProps({ blok: Object })
+<script setup lang="ts">
+import type { PageBlok } from '~/types/storyblok'
+
+defineProps<{
+  blok: PageBlok
+}>()
 </script>

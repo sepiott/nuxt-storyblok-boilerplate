@@ -37,6 +37,10 @@
 <!-- End Testimonials -->
 </template>
 
-<script setup>
-defineProps({ blok: Object })
+<script setup lang="ts">
+import type { QuoteBlok } from '~/types/storyblok'
+
+defineProps<{
+  blok: QuoteBlok
+}>()
 </script>

@@ -42,6 +42,10 @@
   <!-- End Hero Simple -->
 </template>
 
-<script setup>
-defineProps({ blok: Object })
+<script setup lang="ts">
+import type { HeroSimpleBlok } from '~/types/storyblok'
+
+defineProps<{
+  blok: HeroSimpleBlok
+}>()
 </script>

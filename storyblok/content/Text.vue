@@ -9,28 +9,23 @@
     >
       <div
         class="text-gray-600 has-richtext"
-        v-html="md.render(blok.text)"
+        v-html="md.render(blok.text || '')"
       />
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import MarkdownIt from 'markdown-it'
+import type { TextBlok } from '~/types/storyblok'
 
 const md = new MarkdownIt({
   breaks: true, // converts \n to <br>
 })
 
-defineProps({
-  blok: Object,
-  pageType: {
-    type: String,
-    default: 'page',
-  },
-  isFirstOfType: {
-    type: Boolean,
-    default: false,
-  },
-})
+defineProps<{
+  blok: TextBlok
+  pageType?: string
+  isFirstOfType?: boolean
+}>()
 </script>

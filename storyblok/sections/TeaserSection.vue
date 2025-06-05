@@ -108,7 +108,7 @@
           :key="page"
         >
           <NuxtLink
-            v-if="page !== '...'"
+            v-if="page !== '...' && typeof page === 'number'"
             :to="getPaginationUrl(page)"
             class="min-h-9.5 min-w-9.5 flex justify-center items-center font-semibold text-action hover:text-action-300 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-100"
             :class="{ 'bg-gray-100 font-semibold': page === currentPage }"
@@ -154,19 +154,17 @@
   <!-- End Card Blog -->
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useStoryblokApi } from '@storyblok/vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import MarkdownIt from 'markdown-it'
 import { useRuntimeConfig, useHead } from '#app'
+import type { TeaserSectionBlok, StoryblokStory } from '~/types/storyblok'
 
-const props = defineProps({
-  blok: {
-    type: Object,
-    required: true,
-  },
-})
+const props = defineProps<{
+  blok: TeaserSectionBlok
+}>()
 
 const config = useRuntimeConfig()
 const storyblokApi = useStoryblokApi()
@@ -176,14 +174,14 @@ const md = new MarkdownIt({
   breaks: true, // converts \n to <br>
 })
 
-const stories = ref([])
-const total = ref(0)
-const perPage = ref(12) // Default items per page
-const loading = ref(false)
+const stories = ref<StoryblokStory[]>([])
+const total = ref<number>(0)
+const perPage = ref<number>(12) // Default items per page
+const loading = ref<boolean>(false)
 
 // Get current page from URL query or default to 1
 const currentPage = computed(() => {
-  const page = parseInt(route.query.page) || 1
+  const page = parseInt(String(route.query.page || '1'))
   return page > 0 ? page : 1
 })
 
@@ -193,7 +191,7 @@ const totalPages = computed(() => {
 })
 
 // Generate pagination URL preserving other query parameters
-const getPaginationUrl = (page) => {
+const getPaginationUrl = (page: number): string => {
   if (page < 1 || page > totalPages.value) {
     return route.path
   }
@@ -201,24 +199,34 @@ const getPaginationUrl = (page) => {
   if (page === 1) {
     // For page 1, remove the page parameter to keep clean URLs
     const { page: removedPage, ...otherQuery } = route.query
-    return {
-      path: route.path,
-      query: Object.keys(otherQuery).length > 0 ? otherQuery : undefined,
-    }
+    const queryString = new URLSearchParams()
+
+    Object.entries(otherQuery).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        queryString.append(key, String(value))
+      }
+    })
+
+    const queryStr = queryString.toString()
+    return route.path + (queryStr ? `?${queryStr}` : '')
   }
 
-  return {
-    path: route.path,
-    query: {
-      ...route.query,
-      page: page,
-    },
-  }
+  const queryString = new URLSearchParams()
+
+  Object.entries(route.query).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
+      queryString.append(key, String(value))
+    }
+  })
+
+  queryString.set('page', String(page))
+
+  return `${route.path}?${queryString.toString()}`
 }
 
 // Generate visible page numbers with ellipsis
-const visiblePages = computed(() => {
-  const pages = []
+const visiblePages = computed((): (number | string)[] => {
+  const pages: (number | string)[] = []
   const current = currentPage.value
   const totalPagesValue = totalPages.value
 
@@ -324,7 +332,7 @@ useHead(() => ({
   link: headLinks.value,
 }))
 
-const getFirstImageFromStory = (story) => {
+const getFirstImageFromStory = (story: StoryblokStory): string | undefined => {
   // Check if story has content and body
   if (!story?.content?.body || !Array.isArray(story.content.body)) {
     return
@@ -348,7 +356,7 @@ const getFirstImageFromStory = (story) => {
   }
 }
 
-const getFirstTextFromStory = (story) => {
+const getFirstTextFromStory = (story: StoryblokStory): string => {
   // Default text
   const defaultText = 'Read this article to learn more...'
 
@@ -381,7 +389,7 @@ const getFirstTextFromStory = (story) => {
   return defaultText
 }
 
-const getHeroHeadlineFromStory = (story) => {
+const getHeroHeadlineFromStory = (story: StoryblokStory): string | undefined => {
   // Check if story has content and body
   if (!story?.content?.body || !Array.isArray(story.content.body)) {
     return
@@ -405,7 +413,7 @@ const getHeroHeadlineFromStory = (story) => {
   }
 }
 
-const truncateText = (htmlText, maxLength) => {
+const truncateText = (htmlText: string, maxLength: number): string => {
   // Remove HTML tags from rendered markdown
   const plainText = htmlText.replace(/<[^>]*>/g, '')
 
@@ -418,22 +426,22 @@ const truncateText = (htmlText, maxLength) => {
   return plainText.substring(0, lastSpace > 0 ? lastSpace : maxLength) + '...'
 }
 
-const fetchStories = async () => {
+const fetchStories = async (): Promise<void> => {
   if (!props.blok?.path) return
 
   loading.value = true
 
   try {
-    const { data, headers } = await storyblokApi.get('cdn/stories', {
+    const { data } = await storyblokApi.get('cdn/stories', {
       starts_with: props.blok.path,
       sort_by: 'first_published_at:desc,published_at:desc,created_at:desc',
-      version: config.public.storyblokVersion,
+      version: config.public.storyblokVersion as 'draft' | 'published',
       page: currentPage.value,
       per_page: perPage.value,
     })
 
-    stories.value = data.stories
-    total.value = parseInt(headers.total) || 0
+    stories.value = data.stories || []
+    total.value = parseInt(String(data.total || 0))
   }
   catch (error) {
     console.error('Error fetching stories:', error)

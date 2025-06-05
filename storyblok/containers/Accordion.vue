@@ -65,6 +65,10 @@
   </div>
 </template>
 
-<script setup>
-defineProps({ blok: Object })
+<script setup lang="ts">
+import type { AccordionBlok } from '~/types/storyblok'
+
+defineProps<{
+  blok: AccordionBlok
+}>()
 </script>

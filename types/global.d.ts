@@ -19,4 +19,7 @@ declare module 'nuxt/schema' {
   }
 }
 
+// Re-export Storyblok types globally
+export * from './storyblok'
+
 export {}

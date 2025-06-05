@@ -11,10 +11,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
+import type { GridBlok } from '~/types/storyblok'
 
-const props = defineProps({ blok: Object })
+const props = defineProps<{
+  blok: GridBlok
+}>()
 
 const gridColumnsClass = computed(() => {
   const columnCount = props.blok?.columns?.length || 0

@@ -18,6 +18,10 @@
   </div>
 </template>
 
-<script setup>
-defineProps({ blok: Object })
+<script setup lang="ts">
+import type { ImageBlok } from '~/types/storyblok'
+
+defineProps<{
+  blok: ImageBlok
+}>()
 </script>
