@@ -13,6 +13,7 @@ A modern website built with Nuxt 3 and Storyblok CMS, focusing on optimized perf
 - [Code Standards & Linting](#code-standards--linting)
 - [Build & Deployment](#build--deployment)
 - [Storyblok Integration](#storyblok-integration)
+  - [TypeScript Type Generation](#typescript-type-generation)
   - [SEO Content Guidelines for Storyblok](#seo-content-guidelines-for-storyblok)
 - [Contributing](#contributing)
 - [License](#license)
@@ -119,6 +120,53 @@ This project utilizes [Storyblok](https://www.storyblok.com/) as a headless CMS.
 - **Visual Editor**: Real-time preview and editing capabilities.
 - **Component Mapping**: Vue components are dynamically mapped to Storyblok components.
 - **Asset Management**: Efficient handling of images and other assets via Storyblok.
+
+### TypeScript Type Generation
+
+This boilerplate includes pre-built TypeScript interfaces for common Storyblok components. For production projects, you can generate types that exactly match your Storyblok space schema:
+
+#### **Setup Generated Types**
+
+1. **Install Storyblok CLI:**
+   ```bash
+   npm i -g storyblok
+   storyblok login
+   ```
+
+2. **Add scripts to package.json:**
+   ```json
+   {
+     "scripts": {
+       "pull-sb-components": "storyblok pull-components --space YOUR_SPACE_ID",
+       "generate-sb-types": "storyblok generate-typescript-typedefs --sourceFilePaths ./components.YOUR_SPACE_ID.json --destinationFilePath ./types/component-types-sb.d.ts"
+     }
+   }
+   ```
+
+3. **Generate types:**
+   ```bash
+   npm run pull-sb-components
+   npm run generate-sb-types
+   ```
+
+#### **Migration from Boilerplate Types**
+
+Replace boilerplate imports with generated types in your components:
+
+**Before:**
+```typescript
+import type { HeroBlok } from '~/types/storyblok'
+```
+
+**After:**
+```typescript
+import type { HeroStoryblok } from '~/types/component-types-sb'
+```
+
+**Benefits:**
+- ✅ Exact schema matching with your Storyblok space
+- ✅ Field validation based on your CMS configuration
+- ✅ Auto-completion for custom fields and components
 
 ### SEO Content Guidelines for Storyblok
 
