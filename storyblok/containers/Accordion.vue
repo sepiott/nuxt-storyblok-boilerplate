@@ -8,15 +8,15 @@
       {{ blok.title }}
     </h2>
     <div
-      v-for="(item, index) in blok.rows"
+      v-for="item in blok.rows"
       :id="`hs-bordered-heading-${item._uid}`"
       :key="item._uid"
       class="hs-accordion bg-white border border-gray-200 -mt-px first:rounded-t-lg last:rounded-b-lg"
-      :class="{ active: index === 0 }"
+      :class="{ active: item.first_active }"
     >
       <button
         class="hs-accordion-toggle hs-accordion-active:text-secondary inline-flex items-center gap-x-3 w-full font-semibold text-start text-primary py-4 px-5 cursor-pointer hover:text-secondary disabled:opacity-50 disabled:pointer-events-none"
-        :aria-expanded="index === 0 ? 'true' : 'false'"
+        :aria-expanded="item.first_active? 'true' : 'false'"
         :aria-controls="`hs-basic-bordered-collapse-${item._uid}`"
       >
         <svg
@@ -53,7 +53,7 @@
       <div
         :id="`hs-basic-bordered-collapse-${item._uid}`"
         class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
-        :class="{ hidden: index !== 0 }"
+        :class="{ hidden: !item.first_active }"
         role="region"
         :aria-labelledby="`hs-bordered-heading-${item._uid}`"
       >
